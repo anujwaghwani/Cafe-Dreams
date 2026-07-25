@@ -11,7 +11,7 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-admin-50 flex font-sans">
+    <div className="min-h-screen bg-admin-50 flex font-sans overflow-x-hidden w-full">
       {/* Mobile overlay */}
       {isSidebarOpen && (
         <div 
@@ -22,7 +22,7 @@ function App() {
       
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       
-      <main className="flex-1 md:ml-64 min-h-screen flex flex-col">
+      <main className="flex-1 min-w-0 md:ml-64 min-h-screen flex flex-col">
         {/* Mobile Header */}
         <div className="md:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-2">
@@ -33,7 +33,7 @@ function App() {
           </button>
         </div>
 
-        <div className="flex-1 h-[calc(100vh-65px)] md:h-screen overflow-y-auto md:overflow-hidden">
+        <div className="flex-1 min-w-0 h-[calc(100vh-65px)] md:h-screen overflow-y-auto md:overflow-hidden">
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'orders' && <OrdersList />}
           {activeTab === 'menu' && <MenuManager />}
