@@ -128,12 +128,21 @@ export default function Dashboard() {
             <button 
               key={col.id}
               onClick={() => setMobileTab(col.id)}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all ${mobileTab === col.id ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
+              className={`flex-1 relative flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all ${mobileTab === col.id ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
             >
               <col.icon size={14} className={mobileTab === col.id ? `text-${col.color}-600` : ''} />
               <span className="truncate">{col.title}</span>
               {colOrderCount > 0 && (
-                <span className={`ml-1 px-1.5 rounded-full text-[10px] ${mobileTab === col.id ? `bg-${col.color}-100 text-${col.color}-700` : 'bg-slate-300 text-slate-600'}`}>{colOrderCount}</span>
+                <span className={`ml-1 px-1.5 rounded-full text-[10px] ${mobileTab === col.id ? `bg-${col.color}-100 text-${col.color}-700` : 'bg-red-500 text-white shadow-sm shadow-red-500/50'}`}>
+                  {colOrderCount}
+                </span>
+              )}
+              {/* Notification Ping Dot for inactive tabs with orders */}
+              {colOrderCount > 0 && mobileTab !== col.id && (
+                <span className="absolute top-1 right-2 flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                </span>
               )}
             </button>
           )
@@ -152,7 +161,7 @@ export default function Dashboard() {
                   <col.icon size={20} className={`text-${col.color}-600`} />
                   <h3 className="font-bold text-slate-800">{col.title}</h3>
                 </div>
-                <div className={`bg-${col.color}-100 text-${col.color}-700 px-3 py-1 rounded-full text-xs font-bold`}>
+                <div className={`px-3 py-1 rounded-full text-xs font-bold ${columnOrders.length > 0 ? 'bg-red-500 text-white shadow-sm shadow-red-500/30' : `bg-${col.color}-100 text-${col.color}-700`}`}>
                   {columnOrders.length}
                 </div>
               </div>
