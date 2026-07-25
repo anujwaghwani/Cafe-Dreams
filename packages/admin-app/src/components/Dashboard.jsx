@@ -9,6 +9,7 @@ const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabase
 export default function Dashboard() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mobileTab, setMobileTab] = useState('pending');
 
   // Load initial orders and subscribe to Supabase Real-time Feed
   useEffect(() => {
@@ -104,25 +105,47 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans p-6">
       
-      <header className="mb-8 flex items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+      <header className="mb-6 md:mb-8 flex items-center justify-between bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Cafe Dreams Dashboard</h1>
-          <p className="text-slate-500 text-sm mt-1">Live Order Feed & Kitchen Management</p>
+          <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">Cafe Dreams Dashboard</h1>
+          <p className="text-slate-500 text-xs md:text-sm mt-1">Live Order Feed & Kitchen Management</p>
         </div>
-        <div className="flex items-center gap-4 text-sm font-semibold text-slate-600 bg-slate-100 px-4 py-2 rounded-xl">
-          <span className="relative flex h-3 w-3">
+        <div className="flex items-center gap-2 md:gap-4 text-xs md:text-sm font-semibold text-slate-600 bg-slate-100 px-3 md:px-4 py-1.5 md:py-2 rounded-xl">
+          <span className="relative flex h-2 w-2 md:h-3 md:w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-green-500"></span>
           </span>
-          System Live
+          <span className="hidden md:inline">System Live</span>
+          <span className="md:hidden">Live</span>
         </div>
       </header>
+
+      {/* Mobile Tabs */}
+      <div className="md:hidden flex rounded-xl bg-slate-200 p-1 mb-6">
+        {columns.map(col => {
+          const colOrderCount = activeOrders.filter(o => o.status === col.id).length;
+          return (
+            <button 
+              key={col.id}
+              onClick={() => setMobileTab(col.id)}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all ${mobileTab === col.id ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
+            >
+              <col.icon size={14} className={mobileTab === col.id ? `text-${col.color}-600` : ''} />
+              <span className="truncate">{col.title}</span>
+              {colOrderCount > 0 && (
+                <span className={`ml-1 px-1.5 rounded-full text-[10px] ${mobileTab === col.id ? `bg-${col.color}-100 text-${col.color}-700` : 'bg-slate-300 text-slate-600'}`}>{colOrderCount}</span>
+              )}
+            </button>
+          )
+        })}
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {columns.map(col => {
           const columnOrders = activeOrders.filter(o => o.status === col.id);
+          const isMobileActive = mobileTab === col.id;
           return (
-            <div key={col.id} className="flex flex-col h-[60vh] md:h-[75vh]">
+            <div key={col.id} className={`flex-col h-[65vh] md:h-[75vh] ${isMobileActive ? 'flex' : 'hidden md:flex'}`}>
               {/* Column Header */}
               <div className={`flex items-center justify-between mb-4 bg-white p-4 rounded-xl border border-${col.color}-100 shadow-sm border-t-4 border-t-${col.color}-500`}>
                 <div className="flex items-center gap-2">
