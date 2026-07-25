@@ -403,13 +403,25 @@ function OrderStatusScreen({ orderId }) {
     // Poll order status every 3 seconds
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/api/orders/${orderId}`);
-        const data = await res.json();
-        setOrder(data);
+        if (supabase) {
+          const { data, error } = await supabase
+            .from('orders')
+            .select('*')
+            .eq('id', orderId)
+            .single();
+          if (error) throw error;
+          setOrder(data);
+        } else {
+          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+          const res = await fetch(`${apiUrl}/api/orders/${orderId}`);
+          const data = await res.json();
+          setOrder(data);
+        }
       } catch (e) {
-        console.error(e);
+        console.error("Failed to fetch order status:", e);
       }
     };
+    
     fetchOrder();
     const interval = setInterval(fetchOrder, 3000);
     return () => clearInterval(interval);
@@ -441,7 +453,7 @@ function OrderStatusScreen({ orderId }) {
         </a>
         <div>
           <h1 className="font-display font-bold text-slate-900 text-lg">Order #{orderId}</h1>
-          <p className="text-xs text-slate-500 font-medium">Table {order.table_id || 'X'}</p>
+          <p className="text-xs text-slate-500 font-medium">Table {order.table_number || order.table_id || 'X'}</p>
         </div>
       </header>
 
