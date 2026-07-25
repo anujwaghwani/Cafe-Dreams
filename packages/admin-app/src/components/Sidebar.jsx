@@ -1,7 +1,7 @@
 import React from 'react';
-import { LayoutDashboard, ShoppingBag, Coffee, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Coffee, Settings, LogOut, X } from 'lucide-react';
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
+const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'orders', label: 'Orders', icon: ShoppingBag },
@@ -10,15 +10,20 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 h-screen fixed left-0 top-0 flex flex-col">
-      <div className="p-6 border-b border-slate-100 flex items-center gap-3">
-        <div className="bg-brand-500 text-white p-2 rounded-lg">
-          <Coffee size={24} />
+    <aside className={`w-64 bg-white border-r border-slate-200 h-screen fixed left-0 top-0 flex flex-col z-50 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+      <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="bg-brand-500 text-white p-2 rounded-lg">
+            <Coffee size={24} />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-admin-900">Cafe Dreams</h1>
+            <p className="text-xs text-slate-500 font-medium">Admin Portal</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-xl font-bold text-admin-900">Cafe Dreams</h1>
-          <p className="text-xs text-slate-500 font-medium">Admin Portal</p>
-        </div>
+        <button onClick={() => setIsOpen(false)} className="md:hidden p-1 text-slate-400 hover:text-slate-600">
+          <X size={20} />
+        </button>
       </div>
 
       <div className="p-4 flex-1">
@@ -31,7 +36,10 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
             return (
               <button
                 key={item.id}
-                onClick={() => setActiveTab(item.id)}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  setIsOpen(false);
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   isActive 
                     ? 'bg-brand-50 text-brand-600' 
