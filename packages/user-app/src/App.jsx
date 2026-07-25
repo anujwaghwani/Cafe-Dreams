@@ -96,7 +96,7 @@ const mockMenu = [
   { id: 90, name: 'Veg-Biryani', price: 180, category: 'Indian Rice' },
 
   { id: 91, name: 'Coffee', price: 40, category: 'Beverages', img: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=200&q=80' },
-  { id: 92, name: 'Tea', price: 30, category: 'Beverages', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Chai_%28Tea%29_2.jpg/400px-Chai_%28Tea%29_2.jpg' },];
+  { id: 92, name: 'Tea', price: 30, category: 'Beverages', img: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?auto=format&fit=crop&w=200&q=80' },];
 
 // Initialize Supabase Client if env vars are present
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
