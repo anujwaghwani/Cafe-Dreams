@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DATABASE_URL=${DATABASE_URL}
+    restart: unless-stopped
+    networks:
+      - cafe-net
+
+  user-app:
+    build:
+      context: .
+      dockerfile: packages/user-app/Dockerfile
+    ports:
+      - "5173:80"
+    restart: unless-stopped
+    networks:
+      - cafe-net
+
+  admin-app:
+    build:
+      context: .
+      dockerfile: packages/admin-app/Dockerfile
+    ports:
+      - "5174:80"
+    restart: unless-stopped
+    networks:
+      - cafe-net
+
+networks:
+  cafe-net:
+    driver: bridge

@@ -1,0 +1,46 @@
+services:
+  # 1. Node.js Backend Service
+  - type: web
+    name: cafe-dreams-backend
+    env: docker
+    dockerfilePath: ./packages/backend/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: DATABASE_URL
+        sync: false # You must provide your Supabase DB URL in the Render Dashboard
+
+  # 2. User App (Frontend)
+  - type: web
+    name: cafe-dreams-user-app
+    env: docker
+    dockerfilePath: ./packages/user-app/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: cafe-dreams-backend
+          property: hostport
+      - key: VITE_SUPABASE_URL
+        sync: false # Provide in Render Dashboard
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false # Provide in Render Dashboard
+      
+  # 3. Admin App (Frontend)
+  - type: web
+    name: cafe-dreams-admin-app
+    env: docker
+    dockerfilePath: ./packages/admin-app/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: cafe-dreams-backend
+          property: hostport
+      - key: VITE_SUPABASE_URL
+        sync: false # Provide in Render Dashboard
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false # Provide in Render Dashboard
