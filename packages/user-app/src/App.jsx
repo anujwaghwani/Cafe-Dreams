@@ -94,6 +94,12 @@ const mockMenu = [
   { id: 88, name: 'Butter Dal Khichdi', price: 160, category: 'Indian Rice', img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=200&q=80' },
   { id: 89, name: 'Veg-Pulao', price: 150, category: 'Indian Rice', img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=200&q=80' },
   { id: 90, name: 'Veg-Biryani', price: 180, category: 'Indian Rice', img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=200&q=80' },
+  { id: 91, name: 'Espresso', price: 80, category: 'Beverages', img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=200&q=80' },
+  { id: 92, name: 'Cappuccino', price: 120, category: 'Beverages', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=200&q=80' },
+  { id: 93, name: 'Latte', price: 130, category: 'Beverages', img: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=200&q=80' },
+  { id: 94, name: 'Masala Chai', price: 40, category: 'Beverages', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=200&q=80' },
+  { id: 95, name: 'Green Tea', price: 60, category: 'Beverages', img: 'https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?auto=format&fit=crop&w=200&q=80' },
+  { id: 96, name: 'Lemon Tea', price: 50, category: 'Beverages', img: 'https://images.unsplash.com/photo-1576092762791-dd9e2220abd4?auto=format&fit=crop&w=200&q=80' },
 ];
 
 // Initialize Supabase Client if env vars are present
@@ -101,7 +107,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
-const categories = ["Starters", "Chinese Rice", "Noodles", "Sandwich", "Burger", "Shakes", "Momos", "Maggie", "Fries", "Soup", "Pizza", "Indian Main Course", "Indian Rice"];
+const categories = ["Beverages", "Starters", "Chinese Rice", "Noodles", "Sandwich", "Burger", "Shakes", "Momos", "Maggie", "Fries", "Soup", "Pizza", "Indian Main Course", "Indian Rice"];
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('menu'); // 'menu' | 'status'
