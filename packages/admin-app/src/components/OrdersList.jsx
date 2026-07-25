@@ -11,6 +11,8 @@ export default function OrdersList() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -35,10 +37,11 @@ export default function OrdersList() {
     fetchOrders();
   }, []);
 
-  const filteredOrders = orders.filter(order => 
-    order.id.toString().includes(searchTerm) || 
-    (order.table_number && order.table_number.toString().includes(searchTerm))
-  );
+  const filteredOrders = orders.filter(order => {
+    const matchesSearch = order.id.toString().includes(searchTerm) || (order.table_number && order.table_number.toString().includes(searchTerm));
+    const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="p-4 md:p-10 max-w-7xl mx-auto h-full flex flex-col overflow-y-auto md:overflow-hidden">
@@ -58,10 +61,25 @@ export default function OrdersList() {
               className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
-            <Filter size={18} />
-            <span className="hidden md:inline">Filter</span>
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
+            >
+              <Filter size={18} />
+              <span className="hidden md:inline">Filter</span>
+              {statusFilter !== 'all' && <span className="ml-1 w-2 h-2 rounded-full bg-brand-500"></span>}
+            </button>
+            {showFilterDropdown && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg z-20 py-2">
+                <button onClick={() => {setStatusFilter('all'); setShowFilterDropdown(false)}} className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 ${statusFilter === 'all' ? 'font-bold text-brand-600' : 'text-slate-700'}`}>All Orders</button>
+                <button onClick={() => {setStatusFilter('pending'); setShowFilterDropdown(false)}} className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 ${statusFilter === 'pending' ? 'font-bold text-brand-600' : 'text-slate-700'}`}>New (Pending)</button>
+                <button onClick={() => {setStatusFilter('cooking'); setShowFilterDropdown(false)}} className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 ${statusFilter === 'cooking' ? 'font-bold text-brand-600' : 'text-slate-700'}`}>Preparing</button>
+                <button onClick={() => {setStatusFilter('delivered'); setShowFilterDropdown(false)}} className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 ${statusFilter === 'delivered' ? 'font-bold text-brand-600' : 'text-slate-700'}`}>Served</button>
+                <button onClick={() => {setStatusFilter('paid'); setShowFilterDropdown(false)}} className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 ${statusFilter === 'paid' ? 'font-bold text-brand-600' : 'text-slate-700'}`}>Completed (Paid)</button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
