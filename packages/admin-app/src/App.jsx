@@ -33,7 +33,7 @@ function App() {
           </button>
         </div>
 
-        <div className="flex-1 h-[calc(100vh-65px)] md:h-screen overflow-hidden">
+        <div className="flex-1 h-[calc(100vh-65px)] md:h-screen overflow-y-auto md:overflow-hidden">
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'orders' && <OrdersList />}
           {activeTab === 'menu' && <MenuManager />}

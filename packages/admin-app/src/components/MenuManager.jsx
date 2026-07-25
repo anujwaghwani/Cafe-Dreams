@@ -79,13 +79,11 @@ export default function MenuManager() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredItems.map(item => (
               <div key={item.id} className="bg-white border border-slate-200 p-4 rounded-2xl flex items-center gap-4 hover:shadow-md transition-shadow group relative">
-                <div className="w-20 h-20 rounded-xl bg-slate-100 flex-shrink-0 overflow-hidden flex items-center justify-center border border-slate-100">
-                  {item.img ? (
+                {item.img && (
+                  <div className="w-20 h-20 rounded-xl bg-slate-100 flex-shrink-0 overflow-hidden flex items-center justify-center border border-slate-100">
                     <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <ImageIcon className="text-slate-300" size={24} />
-                  )}
-                </div>
+                  </div>
+                )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-bold text-slate-900 truncate text-sm">{item.name}</h4>

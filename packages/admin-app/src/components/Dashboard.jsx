@@ -122,7 +122,7 @@ export default function Dashboard() {
         {columns.map(col => {
           const columnOrders = activeOrders.filter(o => o.status === col.id);
           return (
-            <div key={col.id} className="flex flex-col h-[75vh]">
+            <div key={col.id} className="flex flex-col h-[60vh] md:h-[75vh]">
               {/* Column Header */}
               <div className={`flex items-center justify-between mb-4 bg-white p-4 rounded-xl border border-${col.color}-100 shadow-sm border-t-4 border-t-${col.color}-500`}>
                 <div className="flex items-center gap-2">
