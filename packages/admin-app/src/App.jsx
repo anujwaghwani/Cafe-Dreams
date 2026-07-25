@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Menu } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
+import OrdersList from './components/OrdersList';
+import MenuManager from './components/MenuManager';
+import Settings from './components/Settings';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -30,14 +33,11 @@ function App() {
           </button>
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 h-[calc(100vh-65px)] md:h-screen overflow-hidden">
           {activeTab === 'dashboard' && <Dashboard />}
-          {activeTab !== 'dashboard' && (
-            <div className="p-8 max-w-7xl mx-auto flex flex-col items-center justify-center h-full text-center min-h-[60vh]">
-              <h2 className="text-2xl font-bold text-admin-900 mb-2 capitalize">{activeTab}</h2>
-              <p className="text-slate-500">This module is under construction.</p>
-            </div>
-          )}
+          {activeTab === 'orders' && <OrdersList />}
+          {activeTab === 'menu' && <MenuManager />}
+          {activeTab === 'settings' && <Settings />}
         </div>
       </main>
     </div>
